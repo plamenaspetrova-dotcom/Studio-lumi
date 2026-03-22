@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Makeup With Anna — Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#C9486F;--rose-l:#FBE8EF;--rose-m:#F0BACE;--rose-d:#8B2D47;
+  --gold:#A8690E;--gold-l:#FAF0DC;--gold-m:#E8CFA0;
+  --teal:#0D6B52;--teal-l:#DFF3EC;--teal-m:#9FD8C6;
+  --ink:#1A1815;--mid:#7A7975;--soft:#F5F3EE;--cream:#FDFCF9;
+  --pro:#2C3E6B;--pro-l:#EBF0FB;--pro-m:#C5D0EF;
+  --course:#5C2D91;--course-l:#F3EDFB;--course-m:#D4B8F0;
+  --border:#E8E4DE;--border2:#D4CFC8;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.05);
+  --r:12px;--rm:8px
+}
+body{font-family:'DM Sans',sans-serif;background:#EAE6E0;color:var(--ink);min-height:100vh;font-size:14px}
+
+.mode-bar{background:var(--ink);color:#fff;text-align:center;padding:10px 16px}
+.mode-label{font-size:10px;opacity:.45;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.mode-btns{display:inline-flex;gap:0;border:1px solid rgba(255,255,255,.12);border-radius:7px;overflow:hidden}
+.mode-btn{padding:7px 18px;font-size:12px;cursor:pointer;color:rgba(255,255,255,.45);background:transparent;border:none;font-family:'DM Sans',sans-serif;transition:all .15s;letter-spacing:.02em}
+.mode-btn.active{background:rgba(255,255,255,.1);color:#fff;font-weight:500}
+
+.view{display:none}.view.active{display:flex}
+
+/* SIDEBAR */
+.sidebar{width:215px;min-width:215px;background:var(--cream);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:20px 0;min-height:calc(100vh - 56px)}
+.sb-logo{padding:0 18px 18px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.sb-logo-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;letter-spacing:.04em;color:var(--ink)}
+.sb-logo-sub{font-size:9px;color:var(--mid);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.nav{display:flex;align-items:center;gap:9px;padding:9px 18px;font-size:12.5px;color:var(--mid);cursor:pointer;border-left:2px solid transparent;transition:all .14s;position:relative;user-select:none}
+.nav:hover{color:var(--ink);background:rgba(0,0,0,.015)}
+.nav.active{border-left-color:var(--rose);color:var(--rose);background:var(--rose-l);font-weight:500}
+.nav.active.pro{border-left-color:var(--pro);color:var(--pro);background:var(--pro-l)}
+.nav.active.course{border-left-color:var(--course);color:var(--course);background:var(--course-l)}
+.sep{height:1px;background:var(--border);margin:8px 0}
+.sep-label{font-size:9px;color:var(--mid);letter-spacing:.1em;text-transform:uppercase;padding:6px 18px 4px;opacity:.7}
+.nbadge{position:absolute;right:12px;background:var(--rose);color:#fff;font-size:9px;font-weight:600;border-radius:20px;padding:2px 6px;min-width:17px;text-align:center}
+.nbadge.gold{background:var(--gold)}.nbadge.teal{background:var(--teal)}
+.nbadge.pro{background:var(--pro)}.nbadge.course{background:var(--course)}
+.sb-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{padding:14px 22px;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500}
+.tb-sub{font-size:11px;color:var(--mid);margin-top:2px}
+.content{flex:1;overflow-y:auto;padding:22px;background:#EAE6E0}
+.sec{display:none}.sec.active{display:block;animation:fu .2s ease}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* LAYOUT */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.ct{font-size:13px;font-weight:500;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between}
+.stat{background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:13px 16px;box-shadow:var(--shadow)}
+.stat-l{font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.stat-v{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:500}
+.stat-c{font-size:11px;margin-top:3px}
+.up{color:#2D7A4F}.dn{color:#8B2D2D}
+
+/* LIST ITEMS */
+.li{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border)}
+.li:last-child{border-bottom:none}
+.li-i{flex:1;min-width:0}
+.li-n{font-size:13px;font-weight:500}
+.li-s{font-size:11px;color:var(--mid);margin-top:2px;line-height:1.4}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+
+/* BADGES */
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.b-rose{background:var(--rose-l);color:var(--rose-d)}
+.b-gold{background:var(--gold-l);color:#7A4D09}
+.b-green{background:var(--teal-l);color:#0D4F3C}
+.b-gray{background:var(--soft);color:var(--mid)}
+.b-pro{background:var(--pro-l);color:var(--pro)}
+.b-course{background:var(--course-l);color:var(--course)}
+.b-blue{background:#EBF3FC;color:#1A5FA0}
+
+/* FORMS */
+.fg{display:flex;flex-direction:column;gap:10px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ff label{font-size:11px;color:var(--mid);display:block;margin-bottom:3px}
+.ff input,.ff select,.ff textarea{width:100%;padding:9px 11px;font-size:13px;border:1px solid var(--border);border-radius:var(--rm);background:var(--soft);color:var(--ink);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .14s}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--rose)}
+.ff textarea{resize:vertical;min-height:64px}
+
+/* BUTTONS */
+.btn{padding:8px 15px;border-radius:var(--rm);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--cream);color:var(--ink);transition:all .14s;font-family:'DM Sans',sans-serif}
+.btn:hover{background:var(--soft)}
+.btn-pri{background:var(--rose);color:#fff;border-color:var(--rose)}
+.btn-pri:hover{background:var(--rose-d)}
+.btn-pro{background:var(--pro);color:#fff;border-color:var(--pro)}
+.btn-pro:hover{background:#223056}
+.btn-course{background:var(--course);color:#fff;border-color:var(--course)}
+.btn-course:hover{background:#4A2478}
+.btn-teal{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn-teal:hover{background:#0B5341}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-danger{color:#8B2D2D;border-color:#F0C0C0}
+.btn-danger:hover{background:var(--rose-l)}
+.btn-full{width:100%;padding:11px;font-size:13px}
+
+/* STATUS MESSAGES */
+.msg{border-radius:var(--rm);padding:11px 14px;font-size:12px;line-height:1.6;margin-bottom:14px}
+.msg-gold{background:var(--gold-l);color:#7A4D09;border:1px solid var(--gold-m)}
+.msg-teal{background:var(--teal-l);color:#0D4F3C;border:1px solid var(--teal-m)}
+.msg-rose{background:var(--rose-l);color:var(--rose-d);border:1px solid var(--rose-m)}
+.msg-pro{background:var(--pro-l);color:var(--pro);border:1px solid var(--pro-m)}
+.msg-course{background:var(--course-l);color:var(--course);border:1px solid var(--course-m)}
+
+/* NOTIFICATIONS */
+.notif{display:flex;gap:12px;padding:12px 14px;border-radius:var(--rm);margin-bottom:8px;border:1px solid var(--border);cursor:pointer;transition:all .14s;background:var(--cream)}
+.notif.unread{background:var(--rose-l);border-color:var(--rose-m)}
+.ni{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ni-r{background:var(--rose-l);color:var(--rose)}
+.ni-g{background:var(--gold-l);color:var(--gold)}
+.ni-t{background:var(--teal-l);color:var(--teal)}
+.ni-p{background:var(--pro-l);color:var(--pro)}
+.ni-c{background:var(--course-l);color:var(--course)}
+.pip{width:8px;height:8px;border-radius:50%;background:var(--rose);flex-shrink:0;margin-top:5px}
+.nt{font-size:10px;color:var(--mid);margin-top:3px}
+
+/* BOOKING REQUESTS */
+.req{border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:12px;background:var(--cream);box-shadow:var(--shadow)}
+.req.pending{border-left:3px solid var(--gold)}
+.req.confirmed{border-left:3px solid var(--teal);opacity:.7}
+.req.declined{border-left:3px solid #C94848;opacity:.55}
+.req-det{font-size:12px;color:var(--mid);margin-bottom:5px;display:flex;gap:8px}
+.req-det b{color:var(--ink);font-weight:500;min-width:80px;flex-shrink:0}
+.rav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:10px}
+.ch{font-size:10px;color:var(--mid);text-align:center;padding:4px;font-weight:500;letter-spacing:.04em}
+.cd{min-height:50px;border:1px solid var(--border);border-radius:4px;padding:4px 5px;cursor:pointer;font-size:11px;background:var(--cream);transition:all .14s;position:relative}
+.cd:hover:not(.other):not(.booked):not(.pro-booked){background:var(--soft)}
+.cd.other{color:var(--mid);background:rgba(0,0,0,.02);cursor:default}
+.cd.today{border-color:var(--rose);font-weight:600;color:var(--rose)}
+.cd.booked{background:var(--rose-l);border-color:var(--rose-m);cursor:default}
+.cd.pro-booked{background:var(--pro-l);border-color:var(--pro-m);cursor:default}
+.cd.blocked{background:var(--soft);color:var(--mid)}
+.cd.blocked::after{content:'✕';font-size:9px;color:var(--mid);position:absolute;bottom:3px;right:4px}
+.ev{font-size:9px;border-radius:3px;padding:1px 4px;margin-top:2px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-r{background:var(--rose-l);color:var(--rose-d)}
+.ev-g{background:var(--gold-l);color:#7A4D09}
+.ev-p{background:var(--pro-l);color:var(--pro)}
+.cal-legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mid)}
+.lb{width:11px;height:11px;border-radius:3px}
+
+/* CLIENT + STUDENT ROWS */
+.cr{display:flex;align-items:center;gap:11px;padding:11px 14px;background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);margin-bottom:8px;cursor:pointer;transition:all .14s;box-shadow:var(--shadow)}
+.cr:hover{border-color:var(--border2);background:#fff}
+.cav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.ptag{font-size:10px;background:var(--teal-l);color:var(--teal);padding:3px 9px;border-radius:20px;font-weight:500}
+
+/* PRO BOOKING CARD */
+.pro-brief{border:1px solid var(--pro-m);border-radius:var(--r);padding:15px;margin-bottom:12px;background:var(--pro-l);box-shadow:var(--shadow)}
+.pro-brief.pending{border-left:3px solid var(--gold)}
+.pro-brief.confirmed{border-left:3px solid var(--teal);opacity:.75}
+.pro-det{font-size:12px;color:var(--pro);margin-bottom:5px;display:flex;gap:8px}
+.pro-det b{color:var(--pro);font-weight:600;min-width:90px;flex-shrink:0}
+
+/* COURSE CARDS */
+.course-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+.course-header{padding:16px 18px;border-bottom:1px solid var(--border)}
+.course-badge{font-size:9px;padding:3px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.cb-self{background:#FCE8F3;color:#8B2D5C}
+.cb-beginner{background:var(--course-l);color:var(--course)}
+.cb-pro{background:var(--pro-l);color:var(--pro)}
+.course-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;margin-bottom:4px}
+.course-duration{font-size:12px;color:var(--mid)}
+.course-body{padding:16px 18px}
+.course-item{font-size:12px;color:var(--mid);padding:4px 0;display:flex;gap:8px;align-items:flex-start}
+.course-item::before{content:'·';color:var(--rose);flex-shrink:0;font-size:16px;line-height:1.2}
+.course-footer{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--soft)}
+.course-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--rose)}
+
+/* STUDENT TABLE */
+.student-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:var(--rm);margin-bottom:7px;background:var(--cream);box-shadow:var(--shadow)}
+
+/* ANALYTICS BAR */
+.abar-bg{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+.abar{height:100%;border-radius:4px}
+.src-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
+.src-row:last-child{border-bottom:none}
+
+/* PORTAL */
+#client-view{flex-direction:column;min-height:calc(100vh - 56px);background:#F5F0EA}
+.portal-shell{max-width:480px;margin:0 auto;width:100%;min-height:calc(100vh - 56px);background:#fff;box-shadow:0 0 40px rgba(0,0,0,.1)}
+.portal-hdr{background:linear-gradient(135deg,var(--rose),#A03258);padding:24px 20px;text-align:center}
+.portal-brand{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:4px}
+.portal-name{font-family:'Cormorant Garamond',serif;font-size:28px;color:#fff;font-weight:400;line-height:1.1}
+.portal-tag{font-size:11px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em}
+.portal-pills{display:flex;justify-content:center;gap:7px;margin-top:12px;flex-wrap:wrap}
+.ppill{background:rgba(255,255,255,.16);border-radius:20px;padding:4px 12px;font-size:10px;color:#fff;letter-spacing:.03em}
+.auth-wrap{padding:26px 22px}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:22px;text-align:center;margin-bottom:4px}
+.auth-sub{font-size:12px;color:var(--mid);text-align:center;margin-bottom:20px}
+.auth-tabs{display:flex;border:1px solid var(--border);border-radius:var(--rm);overflow:hidden;margin-bottom:18px}
+.auth-tab{flex:1;padding:10px;font-size:13px;cursor:pointer;color:var(--mid);background:var(--soft);border:none;font-family:'DM Sans',sans-serif;transition:all .14s}
+.auth-tab.active{background:#fff;color:var(--ink);font-weight:500}
+.soc-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--rm);font-size:13px;cursor:pointer;background:#fff;color:var(--ink);font-family:'DM Sans',sans-serif;margin-bottom:8px;transition:all .14s}
+.soc-btn:hover{background:var(--soft)}
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--mid);font-size:11px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.portal-nav{display:flex;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;overflow-x:auto}
+.p-tab{flex:1;padding:11px 6px;font-size:11px;text-align:center;cursor:pointer;color:var(--mid);border-bottom:2px solid transparent;transition:all .14s;font-weight:500;white-space:nowrap;min-width:60px}
+.p-tab.active{color:var(--rose);border-bottom-color:var(--rose)}
+.portal-body{padding:18px}
+.psec{display:none}.psec.active{display:block;animation:fu .2s ease}
+.portal-user-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;background:var(--rose-l);border-bottom:1px solid var(--rose-m)}
+
+/* SERVICE CARDS CLIENT */
+.svc{border:1px solid var(--border);border-radius:var(--rm);padding:13px 15px;cursor:pointer;margin-bottom:8px;transition:all .14s;background:#fff}
+.svc:hover{border-color:var(--rose-m)}
+.svc.sel{border-color:var(--rose);background:var(--rose-l)}
+.svc.sel-pro{border-color:var(--pro);background:var(--pro-l)}
+.svc.sel-course{border-color:var(--course);background:var(--course-l)}
+
+/* COURSE CLIENT CARD */
+.c-course-card{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;background:#fff;cursor:pointer;transition:border-color .14s}
+.c-course-card:hover{border-color:var(--course-m)}
+.c-course-card.sel{border-color:var(--course);border-width:2px}
+.c-course-hdr{padding:14px 15px;border-bottom:1px solid var(--border)}
+.c-course-body{padding:12px 15px}
+.c-course-item{font-size:11px;color:var(--mid);padding:3px 0;display:flex;gap:7px}
+.c-course-item::before{content:'·';color:var(--course);flex-shrink:0;font-size:14px;line-height:1.2}
+
+/* STEPS */
+.steps{display:flex;gap:0;margin-bottom:18px;border:1px solid var(--border);border-radius:var(--rm);overflow:hidden}
+.step{flex:1;padding:8px 4px;font-size:10px;text-align:center;color:var(--mid);background:var(--soft);font-weight:500;letter-spacing:.02em}
+.step.active{background:var(--rose);color:#fff}
+.step.done{background:var(--teal-l);color:var(--teal)}
+
+/* PAY OPTS */
+.popt{border:1px solid var(--border);border-radius:var(--rm);padding:12px 14px;cursor:pointer;margin-bottom:8px;transition:all .14s;background:#fff}
+.popt:hover{border-color:var(--rose-m)}
+.popt.sel{border-color:var(--rose);background:var(--rose-l)}
+
+/* SCROLL */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="mode-bar">
+  <div class="mode-label">Let's Makeup With Anna — Platform</div>
+  <div class="mode-btns">
+    <button class="mode-btn active" onclick="setMode('mua',this)">🎨 Anna's Dashboard</button>
+    <button class="mode-btn" onclick="setMode('client',this)">👤 Client & Student Portal</button>
+  </div>
+</div>
+
+<!-- ══════════════ MUA DASHBOARD ══════════════ -->
+<div id="mua-view" class="view active" style="min-height:calc(100vh - 56px)">
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">letsmakeupwithanna</div>
+      <div class="sb-logo-sub">Anna's Command Center</div>
+    </div>
+
+    <div class="sep-label">Personal bookings</div>
+    <div class="nav active" onclick="nav('dashboard',this,'')">◈ Dashboard</div>
+    <div class="nav" onclick="nav('notifications',this,'')">◉ Notifications <span class="nbadge" id="nb">5</span></div>
+    <div class="nav" onclick="nav('requests',this,'')">◷ Booking requests <span class="nbadge gold" id="rb">3</span></div>
+    <div class="nav" onclick="nav('calendar',this,'')">▦ Calendar</div>
+    <div class="nav" onclick="nav('clients',this,'')">◯ Clients</div>
+    <div class="nav" onclick="nav('reviews',this,'')">★ Reviews <span class="nbadge teal" id="rvb">2</span></div>
+    <div class="nav" onclick="nav('rebook',this,'')">↺ Rebooking engine <span class="nbadge gold">3</span></div>
+    <div class="nav" onclick="nav('waitlist',this,'')">⏳ Waitlist <span class="nbadge">5</span></div>
+
+    <div class="sep"></div>
+    <div class="sep-label">Pro & commercial</div>
+    <div class="nav" onclick="nav('pro',this,'pro')">🎬 Pro bookings <span class="nbadge pro" id="pb">2</span></div>
+    <div class="nav" onclick="nav('pro-clients',this,'pro')">◯ Productions / brands</div>
+
+    <div class="sep"></div>
+    <div class="sep-label">Courses</div>
+    <div class="nav" onclick="nav('courses',this,'course')">🎓 My courses</div>
+    <div class="nav" onclick="nav('students',this,'course')">◯ Students <span class="nbadge course">4</span></div>
+    <div class="nav" onclick="nav('course-requests',this,'course')">◷ Enrollment requests <span class="nbadge course" id="crb">2</span></div>
+
+    <div class="sep"></div>
+    <div class="nav" onclick="nav('analytics',this,'')">▲ Analytics</div>
+    <div class="nav" onclick="nav('portfolio',this,'')">◻ Portfolio</div>
+
+    <div class="sb-footer">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:50%;background:var(--rose-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--rose-d)">AS</div>
+        <div><div style="font-size:12px;font-weight:500">Anna Shevchenko</div><div style="font-size:10px;color:var(--mid)">Cannes 2022 · 2023 · 2024</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div><div class="tb-title" id="pt">Good morning, Anna</div><div class="tb-sub" id="ps">Saturday, March 21 · 3 personal requests · 2 pro briefs · 2 enrollment requests</div></div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-sm" onclick="setMode('client',document.querySelectorAll('.mode-btn')[1])">Preview portal</button>
+        <button class="btn btn-pri btn-sm" id="tb-btn">Review requests</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="sec-dashboard" class="sec active">
+        <div class="g4">
+          <div class="stat"><div class="stat-l">Personal revenue</div><div class="stat-v">AED 18,400</div><div class="stat-c up">+12% this month</div></div>
+          <div class="stat"><div class="stat-l">Pro / commercial</div><div class="stat-v" style="color:var(--pro)">AED 9,200</div><div class="stat-c up">2 active briefs</div></div>
+          <div class="stat"><div class="stat-l">Course revenue</div><div class="stat-v" style="color:var(--course)">AED 6,500</div><div class="stat-c up">4 active students</div></div>
+          <div class="stat"><div class="stat-l">Total this month</div><div class="stat-v">AED 34,100</div><div class="stat-c up">Best month ever</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Live activity</div>
+            <div class="li"><div class="dot" style="background:var(--rose)"></div><div class="li-i"><div class="li-n">New student enrolled — Mariam Al Farsi</div><div class="li-s">Beginner MUA Course · paid in full · 5 min ago</div></div></div>
+            <div class="li"><div class="dot" style="background:var(--pro)"></div><div class="li-i"><div class="li-n">Pro brief received — Studio X Productions</div><div class="li-s">Fashion week shoot · 3 models · Apr 12 · 20 min ago</div></div></div>
+            <div class="li"><div class="dot" style="background:var(--gold)"></div><div class="li-i"><div class="li-n">Booking request — Dina Kamal</div><div class="li-s">Bridal trial Apr 3 · Al Barsha · 1 hr ago</div></div></div>
+            <div class="li"><div class="dot" style="background:var(--course)"></div><div class="li-i"><div class="li-n">Enrollment request — Sara Ahmed</div><div class="li-s">Skills Upgrade Course · awaiting approval · 2 hr ago</div></div></div>
+            <div class="li"><div class="dot" style="background:var(--teal)"></div><div class="li-i"><div class="li-n">New 5★ review — Nour Khalil</div><div class="li-s">Editorial shoot · ready to post · 3 hr ago</div></div></div>
+          </div>
+          <div class="card">
+            <div class="ct">Today at a glance</div>
+            <div class="li"><div class="li-i"><div class="li-n">Lara Al Mansoori</div><div class="li-s">Bridal trial · 9:00 AM · Jumeirah</div></div><span class="badge b-green">Confirmed</span></div>
+            <div class="li"><div class="li-i"><div class="li-n">Nour Khalil</div><div class="li-s">Editorial · 12:00 PM · DIFC</div></div><span class="badge b-green">Confirmed</span></div>
+            <div class="li"><div class="li-i"><div class="li-n">Student session — Mariam Al Farsi</div><div class="li-s">Beginner course · day 1 · 3:00 PM</div></div><span class="badge b-course" style="background:var(--course-l);color:var(--course)">Course</span></div>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-sm" style="flex:1" onclick="nav('pro',document.querySelectorAll('.nav')[10],'pro')">2 pro briefs pending →</button>
+              <button class="btn btn-sm" style="flex:1" onclick="nav('course-requests',document.querySelectorAll('.nav')[15],'course')">2 course enrollments →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div id="sec-notifications" class="sec">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:500">All notifications</div>
+          <button class="btn btn-sm" onclick="markAll()">Mark all read</button>
+        </div>
+        <div class="notif unread" onclick="markOne(this)"><div class="ni ni-c">🎓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">New enrollment — Mariam Al Farsi</div><div style="font-size:12px;color:var(--mid);margin-top:2px">Beginner MUA Course · full payment AED 2,500 received</div><div class="nt">5 minutes ago</div></div><div class="pip"></div></div>
+        <div class="notif unread" onclick="markOne(this)"><div class="ni ni-p">🎬</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Pro brief — Studio X Productions</div><div style="font-size:12px;color:var(--mid);margin-top:2px">Fashion shoot · 3 models · Apr 12 · full day · Dubai</div><div class="nt">20 minutes ago</div></div><div class="pip"></div></div>
+        <div class="notif unread" onclick="markOne(this)"><div class="ni ni-g">📅</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Booking request — Dina Kamal</div><div style="font-size:12px;color:var(--mid);margin-top:2px">Bridal trial · Apr 3 · Al Barsha · deposit paid</div><div class="nt">1 hour ago</div></div><div class="pip"></div></div>
+        <div class="notif unread" onclick="markOne(this)"><div class="ni ni-c">🎓</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Enrollment request — Sara Ahmed</div><div style="font-size:12px;color:var(--mid);margin-top:2px">Skills Upgrade Course · awaiting your approval</div><div class="nt">2 hours ago</div></div><div class="pip"></div></div>
+        <div class="notif unread" onclick="markOne(this)"><div class="ni ni-t">★</div><div style="flex:1"><div style="font-size:13px;font-weight:500">New 5★ review — Nour Khalil</div><div style="font-size:12px;color:var(--mid);margin-top:2px">Photo submitted · tap to create branded post card</div><div class="nt">3 hours ago</div></div><div class="pip"></div></div>
+        <div class="notif" onclick="markOne(this)"><div class="ni ni-r">↺</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Rebook reminder sent — Lara Al Mansoori</div><div style="font-size:12px;color:var(--mid);margin-top:2px">6 weeks since bridal trial · auto WhatsApp sent</div><div class="nt">Yesterday</div></div></div>
+      </div>
+
+      <!-- PERSONAL REQUESTS -->
+      <div id="sec-requests" class="sec">
+        <div class="msg msg-gold">Personal booking requests — confirm after checking date, location & availability.</div>
+        <div class="req pending" id="req-DK">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+            <div class="rav" style="background:var(--gold-l);color:#7A4D09">DK</div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:500">Dina Kamal</div><div style="font-size:11px;color:var(--mid)">New client · skin quiz done · mood board attached</div></div>
+            <span class="badge b-gold">Pending</span>
+          </div>
+          <div class="req-det"><b>Service</b>Bridal trial · 3 hrs</div>
+          <div class="req-det"><b>Date</b>Thu Apr 3 · 10:00 AM</div>
+          <div class="req-det"><b>Address</b>Al Barsha 1 · Villa 42 · Street 12B</div>
+          <div class="req-det"><b>Payment</b>Deposit paid · AED 325</div>
+          <div class="req-det"><b>Skin profile</b>NW25 · warm medium · dry · fragrance-free</div>
+          <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+            <button class="btn btn-teal btn-sm" onclick="confirmR('DK',this,'rb')">✓ Confirm</button>
+            <button class="btn btn-danger btn-sm" onclick="declineR('DK',this,'rb')">✕ Decline</button>
+            <button class="btn btn-sm">Propose new time</button>
+          </div>
+        </div>
+        <div class="req pending" id="req-HA">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+            <div class="rav" style="background:var(--teal-l);color:var(--teal)">HA</div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:500">Hessa Al Maktoum</div><div style="font-size:11px;color:var(--mid)">New client · skin quiz done</div></div>
+            <span class="badge b-gold">Pending</span>
+          </div>
+          <div class="req-det"><b>Service</b>Event glam · 2 hrs</div>
+          <div class="req-det"><b>Date</b>Sat Apr 5 · 3:00 PM</div>
+          <div class="req-det"><b>Address</b>Waldorf Astoria · Palm · Room 814</div>
+          <div class="req-det"><b>Payment</b>Full payment · AED 450</div>
+          <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+            <button class="btn btn-teal btn-sm" onclick="confirmR('HA',this,'rb')">✓ Confirm</button>
+            <button class="btn btn-danger btn-sm" onclick="declineR('HA',this,'rb')">✕ Decline</button>
+          </div>
+        </div>
+        <div class="req pending" id="req-RZ">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+            <div class="rav" style="background:#EBF3FC;color:#1A5FA0">RZ</div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:500">Reem Al Zaabi</div><div style="font-size:11px;color:var(--mid)">Hijabi bride · 3 bridesmaids · mood board: 5 photos</div></div>
+            <span class="badge b-gold">Pending</span>
+          </div>
+          <div class="req-det"><b>Service</b>Bridal full day · 8 hrs</div>
+          <div class="req-det"><b>Date</b>Fri May 16 · 5:00 AM</div>
+          <div class="req-det"><b>Address</b>Address Downtown · Bridal Suite 1201</div>
+          <div class="req-det"><b>Payment</b>Deposit · AED 1,250</div>
+          <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+            <button class="btn btn-teal btn-sm" onclick="confirmR('RZ',this,'rb')">✓ Confirm</button>
+            <button class="btn btn-danger btn-sm" onclick="declineR('RZ',this,'rb')">✕ Decline</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDAR -->
+      <div id="sec-calendar" class="sec">
+        <div class="g2">
+          <div class="card">
+            <div class="ct">March 2026 <div style="display:flex;gap:5px"><button class="btn btn-sm">‹</button><button class="btn btn-sm">›</button></div></div>
+            <div class="cal-grid">
+              <div class="ch">SUN</div><div class="ch">MON</div><div class="ch">TUE</div><div class="ch">WED</div><div class="ch">THU</div><div class="ch">FRI</div><div class="ch">SAT</div>
+              <div class="cd other">22</div><div class="cd other">23</div><div class="cd other">24</div><div class="cd other">25</div><div class="cd other">26</div><div class="cd other">27</div><div class="cd other">28</div>
+              <div class="cd booked">1<span class="ev ev-r">Bridal</span></div><div class="cd blocked" onclick="ctb(this)">2</div><div class="cd booked">3<span class="ev ev-r">Editorial</span></div><div class="cd blocked" onclick="ctb(this)">4</div><div class="cd" onclick="ctb(this)">5</div><div class="cd booked">6<span class="ev ev-r">Glam ×2</span></div><div class="cd" onclick="ctb(this)">7</div>
+              <div class="cd booked">8<span class="ev ev-g">Wedding</span></div><div class="cd" onclick="ctb(this)">9</div><div class="cd" onclick="ctb(this)">10</div><div class="cd blocked" onclick="ctb(this)">11</div><div class="cd pro-booked">12<span class="ev ev-p">Fashion shoot</span></div><div class="cd booked">13<span class="ev ev-r">Bridal</span></div><div class="cd" onclick="ctb(this)">14</div>
+              <div class="cd booked">15<span class="ev ev-r">Event</span></div><div class="cd" onclick="ctb(this)">16</div><div class="cd" onclick="ctb(this)">17</div><div class="cd" onclick="ctb(this)">18</div><div class="cd" onclick="ctb(this)">19</div><div class="cd" onclick="ctb(this)">20</div><div class="cd today" onclick="ctb(this)">21<span class="ev ev-r">3 today</span></div>
+              <div class="cd" onclick="ctb(this)">22</div><div class="cd" onclick="ctb(this)">23</div><div class="cd" onclick="ctb(this)">24</div><div class="cd booked">25<span class="ev ev-r">Corp</span></div><div class="cd pro-booked">26<span class="ev ev-p">Mag shoot</span></div><div class="cd" onclick="ctb(this)">27</div><div class="cd" onclick="ctb(this)">28</div>
+              <div class="cd" onclick="ctb(this)">29</div><div class="cd" onclick="ctb(this)">30</div><div class="cd" onclick="ctb(this)">31</div><div class="cd other">1</div><div class="cd other">2</div><div class="cd other">3</div><div class="cd other">4</div>
+            </div>
+            <div class="cal-legend">
+              <div class="leg"><div class="lb" style="background:var(--rose-l);border:1px solid var(--rose-m)"></div>Personal</div>
+              <div class="leg"><div class="lb" style="background:var(--pro-l);border:1px solid var(--pro-m)"></div>Pro / commercial</div>
+              <div class="leg"><div class="lb" style="background:var(--soft);border:1px solid var(--border)"></div>Blocked</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ct">Block a slot</div>
+            <div class="fg">
+              <div class="ff"><label>Date</label><input type="date" value="2026-03-26"></div>
+              <div class="ff"><label>Block type</label><select><option>Full day</option><option>Morning only</option><option>Afternoon only</option><option>Evening only</option></select></div>
+              <div class="ff"><label>Applies to</label><select><option>All bookings (personal + pro)</option><option>Personal bookings only</option><option>Pro bookings only</option></select></div>
+              <div class="ff"><label>Reason (private)</label><select><option>Personal day</option><option>Travel</option><option>Training / course day</option><option>External booking</option><option>Holiday</option></select></div>
+              <div class="ff"><label>Repeat</label><select><option>One time</option><option>Weekly</option><option>Entire week</option><option>Entire month</option></select></div>
+              <button class="btn btn-pri btn-full" onclick="this.textContent='✓ Blocked!';setTimeout(()=>this.textContent='Block this slot',1600)">Block this slot</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTS -->
+      <div id="sec-clients" class="sec">
+        <div class="msg msg-teal">Personal clients — auto-added when they sign up. Skin profiles, mood boards & payments update in real time.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <input placeholder="Search clients..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:var(--rm);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;outline:none">
+        </div>
+        <div class="cr"><div class="cav" style="background:var(--rose-l);color:var(--rose-d)">HM</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Hessa Al Maktoum</div><div style="font-size:11px;color:var(--mid)">Event glam Apr 5 · Palm · skin quiz done</div></div><span class="badge b-gold">Pending confirm</span></div>
+        <div class="cr"><div class="cav" style="background:var(--teal-l);color:var(--teal)">NK</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Nour Khalil</div><div style="font-size:11px;color:var(--mid)">Editorial Apr 4 · NW45 cool deep · fragrance allergy ⚠</div></div><span class="ptag">AED 325 paid</span></div>
+        <div class="cr"><div class="cav" style="background:var(--gold-l);color:#7A4D09">DK</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Dina Kamal</div><div style="font-size:11px;color:var(--mid)">Bridal trial Apr 3 · NW25 warm · mood board: 3 photos</div></div><span class="badge b-gold">Pending</span></div>
+        <div class="cr"><div class="cav" style="background:var(--rose-l);color:var(--rose-d)">LA</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Lara Al Mansoori</div><div style="font-size:11px;color:var(--mid)">Bridal trial today · NW30 warm medium · dry</div></div><span class="ptag">AED 650 paid</span></div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div id="sec-reviews" class="sec">
+        <div class="g2">
+          <div>
+            <div class="msg msg-teal">Auto-requested 24h after every booking via WhatsApp. One tap to create a branded post card.</div>
+            <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)">
+              <div style="color:#E8920F;font-size:13px;letter-spacing:2px;margin-bottom:4px">★★★★★</div>
+              <div style="font-size:13px;color:var(--ink);line-height:1.6;font-style:italic;margin-bottom:8px">"Anna showed up knowing exactly what I wanted from my mood board. Absolutely flawless. My most confident I've ever felt."</div>
+              <div style="font-size:11px;color:var(--mid);display:flex;justify-content:space-between"><span>Nour Khalil · Editorial</span><span>Mar 20</span></div>
+              <div style="margin-top:10px;display:flex;gap:8px"><button class="btn btn-pri btn-sm">Create post card</button><button class="btn btn-sm">Share to IG</button></div>
+            </div>
+            <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)">
+              <div style="color:#E8920F;font-size:13px;letter-spacing:2px;margin-bottom:4px">★★★★★</div>
+              <div style="font-size:13px;color:var(--ink);line-height:1.6;font-style:italic;margin-bottom:8px">"The most professional MUA I've worked with. Her product knowledge and technique are on another level."</div>
+              <div style="font-size:11px;color:var(--mid);display:flex;justify-content:space-between"><span>Lara Al Mansoori · Bridal</span><span>Mar 15</span></div>
+              <div style="margin-top:10px;display:flex;gap:8px"><button class="btn btn-pri btn-sm">Create post card</button><button class="btn btn-sm">Share to IG</button></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ct">Auto-request settings</div>
+            <div class="fg">
+              <div class="ff"><label>Send after</label><select><option>24 hours after booking</option><option>Same evening</option><option>48 hours</option></select></div>
+              <div class="ff"><label>Channel</label><select><option>WhatsApp</option><option>Email</option><option>Both</option></select></div>
+              <div class="ff"><label>Message</label><textarea>Hi [name]! It was so wonderful working with you ✨ A quick review would mean the world — only takes 30 seconds! [link]</textarea></div>
+              <button class="btn btn-pri btn-full">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REBOOK ENGINE -->
+      <div id="sec-rebook" class="sec">
+        <div class="msg msg-gold">Runs silently in the background. Sends WhatsApp reminders at the right time — zero effort from you.</div>
+        <div class="g2">
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:10px">Due to send now</div>
+            <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--gold-m);border-left:3px solid var(--gold);border-radius:var(--rm);margin-bottom:8px;background:var(--cream)"><div class="cav" style="width:32px;height:32px;font-size:10px;background:var(--rose-l);color:var(--rose-d)">LA</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Lara Al Mansoori</div><div style="font-size:11px;color:var(--mid)">Bridal trial · 6 weeks ago</div></div><button class="btn btn-pri btn-sm" onclick="this.textContent='✓ Sent!';this.disabled=true">Send</button></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--gold-m);border-left:3px solid var(--gold);border-radius:var(--rm);margin-bottom:8px;background:var(--cream)"><div class="cav" style="width:32px;height:32px;font-size:10px;background:var(--teal-l);color:var(--teal)">FH</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Fatima Hassan</div><div style="font-size:11px;color:var(--mid)">Event glam · 7 weeks ago</div></div><button class="btn btn-pri btn-sm" onclick="this.textContent='✓ Sent!';this.disabled=true">Send</button></div>
+            <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid var(--gold-m);border-left:3px solid var(--gold);border-radius:var(--rm);margin-bottom:8px;background:var(--cream)"><div class="cav" style="width:32px;height:32px;font-size:10px;background:var(--gold-l);color:#7A4D09">RM</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Rania Mostafa</div><div style="font-size:11px;color:var(--mid)">Glam · 8 weeks ago</div></div><button class="btn btn-pri btn-sm" onclick="this.textContent='✓ Sent!';this.disabled=true">Send</button></div>
+          </div>
+          <div class="card">
+            <div class="ct">Rebook settings</div>
+            <div class="fg">
+              <div class="ff"><label>Remind after</label><select><option>6 weeks</option><option>4 weeks</option><option>8 weeks</option><option>3 months</option></select></div>
+              <div class="ff"><label>Message</label><textarea>Hi [name]! It's been a little while 💄 If you're ready to book again I'd love to have you back. Here's my availability: [link]</textarea></div>
+              <div class="ff"><label>Stop after</label><select><option>Client rebooks</option><option>2 reminders sent</option><option>Client opts out</option></select></div>
+              <button class="btn btn-pri btn-full">Save & activate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WAITLIST -->
+      <div id="sec-waitlist" class="sec">
+        <div class="msg msg-rose">Clients on blocked dates join automatically. When you free a slot, they get notified via WhatsApp instantly.</div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Active waitlists</div>
+            <div style="font-size:11px;font-weight:500;color:var(--mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Mar 26 — was blocked</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid var(--border);border-radius:var(--rm);margin-bottom:6px"><div class="cav" style="width:28px;height:28px;font-size:10px;background:var(--rose-l);color:var(--rose-d)">SA</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Sara Ahmed</div><div style="font-size:11px;color:var(--mid)">Event glam</div></div><span class="badge b-gold">#1</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid var(--border);border-radius:var(--rm);margin-bottom:6px"><div class="cav" style="width:28px;height:28px;font-size:10px;background:var(--teal-l);color:var(--teal)">MR</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Maha Al Rashid</div><div style="font-size:11px;color:var(--mid)">Bridal trial</div></div><span class="badge b-gold">#2</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid var(--border);border-radius:var(--rm);margin-bottom:12px"><div class="cav" style="width:28px;height:28px;font-size:10px;background:var(--gold-l);color:#7A4D09">JK</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Jana Khalil</div><div style="font-size:11px;color:var(--mid)">Glam</div></div><span class="badge b-gold">#3</span></div>
+            <button class="btn btn-teal btn-full" onclick="this.textContent='✓ All 3 notified!';this.disabled=true">Notify all 3 now</button>
+          </div>
+          <div class="card">
+            <div class="ct">Waitlist settings</div>
+            <div class="fg">
+              <div class="ff"><label>When slot opens</label><select><option>Auto-notify all waitlisted</option><option>Notify me first</option><option>Notify #1, give 2hr window</option></select></div>
+              <div class="ff"><label>Message</label><textarea>Hi [name]! A slot just opened on [date] 🎉 Click to confirm before it goes: [link]</textarea></div>
+              <div class="ff"><label>Spot expires after</label><select><option>2 hours</option><option>6 hours</option><option>24 hours</option></select></div>
+              <button class="btn btn-pri btn-full">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ PRO BOOKINGS ═══ -->
+      <div id="sec-pro" class="sec">
+        <div class="msg msg-pro">
+          <b>Pro & commercial bookings</b> — for productions, fashion shoots, red carpet events, magazines, and brand campaigns. Clients submit a production brief. You review it and quote before confirming.
+        </div>
+        <div class="g2">
+          <div>
+            <div style="font-size:13px;font-weight:500;margin-bottom:12px">Incoming briefs</div>
+
+            <div class="pro-brief pending" id="pro-SX">
+              <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+                <div style="width:38px;height:38px;border-radius:50%;background:var(--pro-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--pro)">SX</div>
+                <div style="flex:1"><div style="font-size:14px;font-weight:500">Studio X Productions</div><div style="font-size:11px;color:var(--mid)">Production company · Dubai</div></div>
+                <span class="badge b-gold">New brief</span>
+              </div>
+              <div class="pro-det"><b>Project type</b>Fashion shoot / editorial</div>
+              <div class="pro-det"><b>Date</b>Saturday Apr 12 · call time 7:00 AM</div>
+              <div class="pro-det"><b>Location</b>Studio — DIFC, Dubai</div>
+              <div class="pro-det"><b>No. of looks</b>6 looks · 3 models</div>
+              <div class="pro-det"><b>Duration</b>Full day · approx 10 hrs</div>
+              <div class="pro-det"><b>Budget</b>Flexible · awaiting your rate</div>
+              <div class="pro-det"><b>Brief</b>High-fashion editorial for a UAE magazine. Mix of clean skin, bold eye and avant-garde looks. Moodboard attached.</div>
+              <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+                <button class="btn btn-pro btn-sm" onclick="confirmR('SX',this,'pb')">✓ Accept & send quote</button>
+                <button class="btn btn-danger btn-sm" onclick="declineR('SX',this,'pb')">✕ Decline</button>
+                <button class="btn btn-sm">Request more info</button>
+              </div>
+            </div>
+
+            <div class="pro-brief pending" id="pro-VF">
+              <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+                <div style="width:38px;height:38px;border-radius:50%;background:var(--pro-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--pro)">VF</div>
+                <div style="flex:1"><div style="font-size:14px;font-weight:500">Vogue Fashion Arabia</div><div style="font-size:11px;color:var(--mid)">Magazine · commercial client</div></div>
+                <span class="badge b-gold">New brief</span>
+              </div>
+              <div class="pro-det"><b>Project type</b>Magazine cover shoot</div>
+              <div class="pro-det"><b>Date</b>Thu–Fri Apr 17–18</div>
+              <div class="pro-det"><b>Location</b>Outdoor · Abu Dhabi</div>
+              <div class="pro-det"><b>No. of looks</b>4 looks · 1 cover model</div>
+              <div class="pro-det"><b>Duration</b>2-day shoot</div>
+              <div class="pro-det"><b>Budget</b>AED 8,000 all-in</div>
+              <div class="pro-det"><b>Brief</b>Golden desert aesthetic. Skin-forward. Soft editorial with bold brow moment. No heavy contouring.</div>
+              <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+                <button class="btn btn-pro btn-sm" onclick="confirmR('VF',this,'pb')">✓ Accept & send quote</button>
+                <button class="btn btn-danger btn-sm" onclick="declineR('VF',this,'pb')">✕ Decline</button>
+                <button class="btn btn-sm">Negotiate rate</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:14px">
+              <div class="ct">Pro rate card</div>
+              <div class="fg">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--mid)">Half day (up to 5 hrs)</span><span style="font-weight:500">AED 2,000</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--mid)">Full day (up to 10 hrs)</span><span style="font-weight:500">AED 3,500</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--mid)">Per model / look</span><span style="font-weight:500">AED 600</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--mid)">Multi-day discount</span><span style="font-weight:500">–15%</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px"><span style="color:var(--mid)">Travel outside Dubai</span><span style="font-weight:500">AED 500+</span></div>
+                <button class="btn btn-pro btn-full" style="margin-top:4px">Edit rate card</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="ct">Confirmed pro bookings</div>
+              <div class="li"><div class="li-i"><div class="li-n">Chalhoub Group</div><div class="li-s">Fashion event · Mar 12 · confirmed</div></div><span class="ptag">AED 4,200</span></div>
+              <div class="li"><div class="li-i"><div class="li-n">Harpers Bazaar Arabia</div><div class="li-s">Editorial · Mar 26 · confirmed</div></div><span class="ptag">AED 3,500</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRO CLIENTS -->
+      <div id="sec-pro-clients" class="sec">
+        <div class="msg msg-pro">Production companies, magazines, brands, and photographers who book Anna commercially.</div>
+        <div class="cr"><div class="cav" style="background:var(--pro-l);color:var(--pro)">SX</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Studio X Productions</div><div style="font-size:11px;color:var(--mid)">Fashion / editorial · 3 bookings · Dubai</div></div><span class="badge b-pro">Pending brief</span></div>
+        <div class="cr"><div class="cav" style="background:var(--pro-l);color:var(--pro)">VF</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Vogue Fashion Arabia</div><div style="font-size:11px;color:var(--mid)">Magazine · 1 booking · cover shoot</div></div><span class="badge b-pro">Pending brief</span></div>
+        <div class="cr"><div class="cav" style="background:var(--pro-l);color:var(--pro)">CG</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Chalhoub Group</div><div style="font-size:11px;color:var(--mid)">Fashion events · 4 bookings · repeat client</div></div><span class="ptag">AED 4,200 paid</span></div>
+        <div class="cr"><div class="cav" style="background:var(--pro-l);color:var(--pro)">HB</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Harpers Bazaar Arabia</div><div style="font-size:11px;color:var(--mid)">Editorial · 2 bookings · magazine</div></div><span class="ptag">AED 3,500 paid</span></div>
+      </div>
+
+      <!-- ═══ COURSES ═══ -->
+      <div id="sec-courses" class="sec">
+        <div class="msg msg-course">Anna's 3 courses, exactly as on her website — students book, pay, and track progress through the portal.</div>
+
+        <div class="course-card">
+          <div class="course-header">
+            <div class="course-badge cb-self">Self makeup</div>
+            <div class="course-name">Self Makeup Course</div>
+            <div class="course-duration">Duration: 3–6 hours · 1-on-1 · your location or studio</div>
+          </div>
+          <div class="course-body">
+            <div class="course-item">Going through your makeup kit</div>
+            <div class="course-item">Skin care routine & skin preparation for long-lasting makeup</div>
+            <div class="course-item">Choosing the right foundation colour, texture & application styles</div>
+            <div class="course-item">Face sculpting and contouring suitable for your face shape</div>
+            <div class="course-item">Tools, products and techniques for eyebrow shaping</div>
+            <div class="course-item">Day eye makeup + transforming into evening look</div>
+            <div class="course-item">Perfect eyeliner shape for your eye type</div>
+            <div class="course-item">Secrets of a perfect bold lip</div>
+          </div>
+          <div class="course-footer">
+            <div><div class="course-price">AED 800</div><div style="font-size:11px;color:var(--mid)">3 students enrolled</div></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-course btn-sm">View students</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-header">
+            <div class="course-badge cb-beginner">Beginner MUA</div>
+            <div class="course-name">Beginner Course — Become a MUA</div>
+            <div class="course-duration">Duration: 14–20 hours · practice on a model · multiple sessions</div>
+          </div>
+          <div class="course-body">
+            <div class="course-item">Basics: skin types, face shapes, colour theory</div>
+            <div class="course-item">Tools and professional makeup brands</div>
+            <div class="course-item">Skin preparation depending on shoot requirements</div>
+            <div class="course-item">Face sculpting and contouring — creamy and dry techniques</div>
+            <div class="course-item">Eyebrow shaping · Day & no-makeup look · Evening transformation</div>
+            <div class="course-item">Eyeliner techniques · Blended liner · Smokey eyes</div>
+            <div class="course-item">Hygiene, professional behaviour & client psychology</div>
+            <div class="course-item">How and where to get your first jobs as a MUA</div>
+          </div>
+          <div class="course-footer">
+            <div><div class="course-price">AED 2,500</div><div style="font-size:11px;color:var(--mid)">1 student enrolled · 2 awaiting approval</div></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-course btn-sm">View students</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-header">
+            <div class="course-badge cb-pro">Skills upgrade</div>
+            <div class="course-name">Skills Upgrade — For Working MUAs</div>
+            <div class="course-duration">Duration: 1–3 days · for MUAs with basic knowledge</div>
+          </div>
+          <div class="course-body">
+            <div class="course-item">Up to 3 advanced makeup looks of your choice</div>
+            <div class="course-item">Tips and tricks for long-lasting, flawless makeup</div>
+            <div class="course-item">How to get inspiration for creative and fashion looks</div>
+            <div class="course-item">DOs and DON'Ts for building a strong portfolio</div>
+            <div class="course-item">Important social media aspects to promote your page</div>
+            <div class="course-item">Networking and the importance of community</div>
+            <div class="course-item">DOs and DON'Ts of collaborations</div>
+            <div class="course-item">How to get regular clients and work with photographers</div>
+          </div>
+          <div class="course-footer">
+            <div><div class="course-price">AED 1,800 <span style="font-size:12px;color:var(--mid)">/ day</span></div><div style="font-size:11px;color:var(--mid)">0 active · 0 awaiting</div></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-sm">Edit</button>
+              <button class="btn btn-course btn-sm">View students</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENTS -->
+      <div id="sec-students" class="sec">
+        <div class="msg msg-course">Students are added when they enroll via the portal. You can track their progress and session dates here.</div>
+        <div class="student-row"><div class="cav" style="background:var(--course-l);color:var(--course)">MA</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Mariam Al Farsi</div><div style="font-size:11px;color:var(--mid)">Beginner MUA Course · Day 1 of ~5 · enrolled today</div></div><span class="ptag" style="background:var(--course-l);color:var(--course)">AED 2,500 paid</span></div>
+        <div class="student-row"><div class="cav" style="background:var(--course-l);color:var(--course)">LA</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Layla Al Ansari</div><div style="font-size:11px;color:var(--mid)">Self Makeup Course · completed · 2 weeks ago</div></div><span class="ptag" style="background:var(--course-l);color:var(--course)">AED 800 paid</span></div>
+        <div class="student-row"><div class="cav" style="background:var(--course-l);color:var(--course)">NK</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Nada Karim</div><div style="font-size:11px;color:var(--mid)">Self Makeup Course · session 1 of 1 · this Saturday</div></div><span class="badge b-gold">Upcoming</span></div>
+        <div class="student-row"><div class="cav" style="background:var(--course-l);color:var(--course)">RM</div><div style="flex:1"><div style="font-size:13px;font-weight:500">Rana Mahmoud</div><div style="font-size:11px;color:var(--mid)">Self Makeup Course · enrolled · payment pending</div></div><span class="badge b-gray">Pending payment</span></div>
+      </div>
+
+      <!-- ENROLLMENT REQUESTS -->
+      <div id="sec-course-requests" class="sec">
+        <div class="msg msg-course">Review each enrollment before confirming — check availability and course fit.</div>
+        <div class="req pending" id="req-SA" style="border-left-color:var(--course)">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+            <div class="rav" style="background:var(--course-l);color:var(--course)">SA</div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:500">Sara Ahmed</div><div style="font-size:11px;color:var(--mid)">Existing MUA · 2 years experience</div></div>
+            <span class="badge b-course" style="background:var(--course-l);color:var(--course)">Pending</span>
+          </div>
+          <div class="req-det"><b>Course</b>Skills Upgrade — 1–3 days</div>
+          <div class="req-det"><b>Preferred dates</b>Any week in April</div>
+          <div class="req-det"><b>Experience</b>2 years freelance · mainly events · wants to improve editorial</div>
+          <div class="req-det"><b>Goals</b>"I want to learn how to build a portfolio and get into fashion shoots"</div>
+          <div class="req-det"><b>Payment</b>Ready to pay on confirmation</div>
+          <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+            <button class="btn btn-course btn-sm" onclick="confirmR('SA',this,'crb')">✓ Accept enrollment</button>
+            <button class="btn btn-danger btn-sm" onclick="declineR('SA',this,'crb')">✕ Decline</button>
+            <button class="btn btn-sm">Ask a question first</button>
+          </div>
+        </div>
+        <div class="req pending" id="req-TB" style="border-left-color:var(--course)">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:11px">
+            <div class="rav" style="background:var(--course-l);color:var(--course)">TB</div>
+            <div style="flex:1"><div style="font-size:14px;font-weight:500">Tala Barakat</div><div style="font-size:11px;color:var(--mid)">Complete beginner · wants to become MUA</div></div>
+            <span class="badge b-course" style="background:var(--course-l);color:var(--course)">Pending</span>
+          </div>
+          <div class="req-det"><b>Course</b>Beginner Course — Become a MUA</div>
+          <div class="req-det"><b>Preferred dates</b>May onwards</div>
+          <div class="req-det"><b>Experience</b>None · complete beginner</div>
+          <div class="req-det"><b>Goals</b>"I want to become a professional MUA and eventually work at fashion events"</div>
+          <div class="req-det"><b>Payment</b>Prefers to pay in 2 installments</div>
+          <div style="display:flex;gap:8px;margin-top:11px;flex-wrap:wrap">
+            <button class="btn btn-course btn-sm" onclick="confirmR('TB',this,'crb')">✓ Accept enrollment</button>
+            <button class="btn btn-danger btn-sm" onclick="declineR('TB',this,'crb')">✕ Decline</button>
+            <button class="btn btn-sm">Discuss installments</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div id="sec-analytics" class="sec">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">
+          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:13px;text-align:center;box-shadow:var(--shadow)"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--rose)">AED 18,400</div><div style="font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">Personal</div></div>
+          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:13px;text-align:center;box-shadow:var(--shadow)"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--pro)">AED 9,200</div><div style="font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">Pro / commercial</div></div>
+          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rm);padding:13px;text-align:center;box-shadow:var(--shadow)"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--course)">AED 6,500</div><div style="font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.07em;margin-top:3px">Courses</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ct">Revenue by stream</div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Personal clients</span><div class="abar-bg"><div class="abar" style="width:54%;background:var(--rose)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">54%</span></div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Pro / commercial</span><div class="abar-bg"><div class="abar" style="width:27%;background:var(--pro)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">27%</span></div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Courses</span><div class="abar-bg"><div class="abar" style="width:19%;background:var(--course)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">19%</span></div>
+          </div>
+          <div class="card">
+            <div class="ct">Top services</div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Bridal full day</span><div class="abar-bg"><div class="abar" style="width:80%;background:var(--rose)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">AED 7,500</span></div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Fashion shoot</span><div class="abar-bg"><div class="abar" style="width:60%;background:var(--pro)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">AED 5,600</span></div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Beginner course</span><div class="abar-bg"><div class="abar" style="width:40%;background:var(--course)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">AED 3,700</span></div>
+            <div class="src-row"><span style="font-size:12px;min-width:130px">Editorial</span><div class="abar-bg"><div class="abar" style="width:35%;background:var(--pro)"></div></div><span style="font-size:12px;font-weight:500;margin-left:8px">AED 3,200</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO -->
+      <div id="sec-portfolio" class="sec">
+        <div class="msg msg-rose">Looks published here appear live on your client portal. Organised by Anna's 3 categories.</div>
+        <div class="g3">
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--rose-d);margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em">Red carpet / events</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#FBE8EF,#C9486F,#8B2D47);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Red carpet</span></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#FFF3DC,#E8920F,#7A4D09);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Gala glam</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--pro);margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em">Creative makeup</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#EEEDFE,#7F77DD,#3C3489);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Avant-garde</span></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#DFF3EC,#0D9E72,#085041);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Editorial art</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--course);margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em">Fashion / magazine</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#EBF3FC,#2E7FCC,#0C447C);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Blue fashion</span></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#F5F3EE,#7A7975,#1E1C1A);display:flex;align-items:flex-end;padding:6px;cursor:pointer"><span style="font-size:9px;color:#fff;background:rgba(0,0,0,.38);padding:2px 5px;border-radius:3px">Minimalist</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CLIENT & STUDENT PORTAL ══════════════ -->
+<div id="client-view" class="view">
+  <div style="background:#F5F0EA;flex:1;padding:20px 16px;min-height:calc(100vh - 56px)">
+    <div class="portal-shell">
+
+      <!-- AUTH -->
+      <div id="portal-auth">
+        <div class="portal-hdr">
+          <div class="portal-brand">letsmakeupwithanna</div>
+          <div class="portal-name">Anna Shevchenko</div>
+          <div class="portal-tag">Makeup Artist · Dubai · Cannes Film Festival 2022 · 2023 · 2024</div>
+          <div class="portal-pills">
+            <div class="ppill">Makeup Artist of the Year 2021</div>
+            <div class="ppill">PRO Beauty GCC</div>
+            <div class="ppill">4.9 ★</div>
+          </div>
+        </div>
+        <div class="auth-wrap">
+          <div class="auth-title">Welcome</div>
+          <div class="auth-sub">Sign in to book a service, enroll in a course, or submit a pro brief</div>
+          <div class="auth-tabs">
+            <button class="auth-tab active" onclick="at('in',this)">Sign in</button>
+            <button class="auth-tab" onclick="at('up',this)">Create account</button>
+          </div>
+          <div id="a-in">
+            <div class="fg" style="margin-bottom:14px">
+              <div class="ff"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+              <div class="ff"><label>Password</label><input type="password" placeholder="••••••••"></div>
+            </div>
+            <button class="btn btn-pri btn-full" style="margin-bottom:12px" onclick="signIn()">Sign in</button>
+            <div class="divider">or</div>
+            <button class="soc-btn" onclick="signIn()">🌐 Google</button>
+            <button class="soc-btn" onclick="signIn()">🍎 Apple</button>
+          </div>
+          <div id="a-up" style="display:none">
+            <div class="fg" style="margin-bottom:14px">
+              <div class="fr"><div class="ff"><label>First name</label><input placeholder="Hessa"></div><div class="ff"><label>Last name</label><input placeholder="Al Maktoum"></div></div>
+              <div class="ff"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+              <div class="ff"><label>WhatsApp</label><input placeholder="+971 5x xxx xxxx"></div>
+              <div class="ff"><label>I am signing up as</label><select><option>Personal client (bridal, glam, events)</option><option>Professional (production, brand, magazine)</option><option>Student (I want to take a course)</option></select></div>
+              <div class="ff"><label>Password</label><input type="password" placeholder="Create a password"></div>
+            </div>
+            <button class="btn btn-pri btn-full" style="margin-bottom:12px" onclick="signIn()">Create account</button>
+            <div class="divider">or</div>
+            <button class="soc-btn" onclick="signIn()">🌐 Continue with Google</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGGED IN -->
+      <div id="portal-main" style="display:none">
+        <div class="portal-hdr" style="padding:14px 18px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:#fff;font-weight:400;letter-spacing:.04em">letsmakeupwithanna</div><div style="font-size:10px;color:rgba(255,255,255,.65);letter-spacing:.05em">Anna Shevchenko · Dubai</div></div>
+            <button class="btn btn-sm" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);color:#fff" onclick="signOut()">Sign out</button>
+          </div>
+        </div>
+        <div class="portal-user-bar">
+          <div><div style="font-size:13px;font-weight:500;color:var(--rose-d)">Hi, Hessa 👋</div><div style="font-size:11px;color:var(--rose)">Personal client · member since today</div></div>
+          <span class="badge b-rose">1 booking pending</span>
+        </div>
+        <div class="portal-nav">
+          <div class="p-tab active" onclick="pt('book',this)">Book</div>
+          <div class="p-tab" onclick="pt('portfolio',this)">Portfolio</div>
+          <div class="p-tab" onclick="pt('pro',this)">Pro brief</div>
+          <div class="p-tab" onclick="pt('courses',this)">Courses</div>
+          <div class="p-tab" onclick="pt('moodboard',this)">Mood board</div>
+          <div class="p-tab" onclick="pt('mybookings',this)">My bookings</div>
+        </div>
+        <div class="portal-body">
+
+          <!-- BOOK TAB -->
+          <div id="psec-book" class="psec active">
+            <div class="steps"><div class="step active" id="s1">1 · Service</div><div class="step" id="s2">2 · Address</div><div class="step" id="s3">3 · Payment</div></div>
+            <div id="bs1">
+              <div style="font-size:13px;font-weight:500;margin-bottom:10px">Choose a service</div>
+              <div class="svc sel" onclick="ss(this,'2500','1250')"><div style="font-size:13px;font-weight:500">Bridal full day</div><div style="font-size:11px;color:var(--mid);margin-top:2px">Up to 8 hrs · touch-up kit</div><div style="font-size:16px;font-weight:500;color:var(--rose);margin-top:5px">AED 2,500</div></div>
+              <div class="svc" onclick="ss(this,'650','325')"><div style="font-size:13px;font-weight:500">Bridal trial</div><div style="font-size:11px;color:var(--mid);margin-top:2px">3-hour session</div><div style="font-size:16px;font-weight:500;color:var(--rose);margin-top:5px">AED 650</div></div>
+              <div class="svc" onclick="ss(this,'450','225')"><div style="font-size:13px;font-weight:500">Event / party glam</div><div style="font-size:11px;color:var(--mid);margin-top:2px">1.5–2 hrs</div><div style="font-size:16px;font-weight:500;color:var(--rose);margin-top:5px">AED 450</div></div>
+              <button class="btn btn-pri btn-full" style="margin-top:12px" onclick="gs(2)">Continue →</button>
+            </div>
+            <div id="bs2" style="display:none">
+              <div class="fg" style="margin-bottom:14px">
+                <div class="fr"><div class="ff"><label>Date</label><input type="date"></div><div class="ff"><label>Time</label><input type="time" value="09:00"></div></div>
+                <div class="ff"><label>Building / hotel</label><input placeholder="e.g. Address Downtown..."></div>
+                <div class="fr"><div class="ff"><label>Area</label><input placeholder="e.g. Palm Jumeirah..."></div><div class="ff"><label>Apt / room no.</label><input placeholder="Room 814..."></div></div>
+                <div class="ff"><label>Access notes</label><input placeholder="Gate code, parking, intercom..."></div>
+                <div class="ff"><label>Special requests</label><textarea placeholder="Skin concerns, number of people..."></textarea></div>
+              </div>
+              <div style="display:flex;gap:8px"><button class="btn btn-sm" onclick="gs(1)">← Back</button><button class="btn btn-pri" style="flex:1" onclick="gs(3)">Continue →</button></div>
+            </div>
+            <div id="bs3" style="display:none">
+              <div class="popt sel" id="pf" onclick="sp('full')"><div style="display:flex;justify-content:space-between"><div><div style="font-size:13px;font-weight:500">Pay full amount</div><div style="font-size:11px;color:var(--mid);margin-top:2px">5% discount applied</div></div><div style="text-align:right"><div id="fa" style="font-size:16px;font-weight:500;color:var(--rose)">AED 2,375</div><div style="font-size:10px;color:#2D7A4F;font-weight:500">5% off</div></div></div></div>
+              <div class="popt" id="pd" onclick="sp('dep')"><div style="display:flex;justify-content:space-between"><div><div style="font-size:13px;font-weight:500">50% deposit</div><div style="font-size:11px;color:var(--mid);margin-top:2px">Balance due 7 days before</div></div><div id="da" style="font-size:16px;font-weight:500;color:var(--rose)">AED 1,250</div></div></div>
+              <div class="msg msg-gold" style="margin-top:12px">Your booking is a <b>request</b> — Anna reviews your address and date before confirming. You'll hear back on WhatsApp.</div>
+              <div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-sm" onclick="gs(2)">← Back</button><button class="btn btn-pri" style="flex:1" onclick="submitB()">Send request</button></div>
+            </div>
+            <div id="bsuc" style="display:none;text-align:center;padding:28px 0">
+              <div style="font-size:44px;margin-bottom:12px">✓</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px">Request sent!</div>
+              <div style="font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:18px">Anna will review your address and date and confirm on WhatsApp shortly.</div>
+              <button class="btn btn-pri btn-sm" onclick="pt('mybookings',document.querySelectorAll('.p-tab')[5])">View my bookings →</button>
+            </div>
+          </div>
+
+          <!-- PORTFOLIO TAB -->
+          <div id="psec-portfolio" class="psec">
+            <div style="font-size:12px;color:var(--mid);margin-bottom:14px">Cannes Film Festival · fashion shows · international editorial work</div>
+            <div style="font-size:12px;font-weight:500;color:var(--rose-d);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Red carpet / events</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px">
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#FBE8EF,#C9486F,#8B2D47);cursor:pointer"></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#FFF3DC,#E8920F,#7A4D09);cursor:pointer"></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#FAEEDA,#C9486F,#3C3489);cursor:pointer"></div>
+            </div>
+            <div style="font-size:12px;font-weight:500;color:var(--pro);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Creative makeup</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px">
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#EEEDFE,#7F77DD,#3C3489);cursor:pointer"></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#DFF3EC,#0D9E72,#085041);cursor:pointer"></div>
+              <div style="aspect-ratio:3/4;border-radius:7px;background:linear-gradient(155deg,#EBF3FC,#2E7FCC,#0C447C);cursor:pointer"></div>
+            </div>
+            <button class="btn btn-pri btn-full" onclick="pt('book',document.querySelectorAll('.p-tab')[0])">Book Anna →</button>
+          </div>
+
+          <!-- PRO BRIEF TAB -->
+          <div id="psec-pro" class="psec">
+            <div class="msg msg-pro">For productions, fashion shoots, magazine editorials, red carpet events, and brand campaigns. Submit your brief and Anna will respond with availability and a rate.</div>
+            <div class="fg">
+              <div class="ff"><label>Company / brand name</label><input placeholder="e.g. Studio X Productions, Vogue Arabia..."></div>
+              <div class="ff"><label>Project type</label>
+                <select>
+                  <option>Fashion shoot / editorial</option>
+                  <option>Magazine cover shoot</option>
+                  <option>Red carpet / award event</option>
+                  <option>Fashion show / runway</option>
+                  <option>Film or TV production</option>
+                  <option>Brand campaign / commercial</option>
+                  <option>Music video</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="fr">
+                <div class="ff"><label>Shoot date(s)</label><input type="date"></div>
+                <div class="ff"><label>Approx call time</label><input type="time" value="07:00"></div>
+              </div>
+              <div class="ff"><label>Location / studio</label><input placeholder="Studio name, city, or on-location..."></div>
+              <div class="fr">
+                <div class="ff"><label>No. of models / talents</label><input type="number" placeholder="e.g. 3" min="1"></div>
+                <div class="ff"><label>No. of looks per model</label><input type="number" placeholder="e.g. 4" min="1"></div>
+              </div>
+              <div class="ff"><label>Estimated duration</label><select><option>Half day (up to 5 hrs)</option><option>Full day (up to 10 hrs)</option><option>Multi-day</option><option>Not sure yet</option></select></div>
+              <div class="ff"><label>Budget (optional)</label><input placeholder="e.g. AED 5,000 or flexible..."></div>
+              <div class="ff"><label>Brief / creative direction</label><textarea placeholder="Describe the aesthetic, mood, references, and any specific requirements. You can also add a mood board link..."></textarea></div>
+              <div class="ff"><label>Your contact name</label><input placeholder="Full name"></div>
+              <div class="ff"><label>Your WhatsApp</label><input placeholder="+971 5x xxx xxxx"></div>
+              <button class="btn btn-pro btn-full" onclick="this.textContent='✓ Brief submitted — Anna will be in touch!';this.disabled=true">Submit pro brief</button>
+            </div>
+            <div style="margin-top:14px;font-size:11px;color:var(--mid);text-align:center;line-height:1.6">Anna responds to all commercial briefs within 24 hours · +971 52 947 5070</div>
+          </div>
+
+          <!-- COURSES TAB -->
+          <div id="psec-courses" class="psec">
+            <div style="font-size:12px;color:var(--mid);margin-bottom:14px;line-height:1.5">Learn from a Cannes-level MUA. All courses are 1-on-1 with Anna — real practice, real feedback, real skills.</div>
+
+            <div class="c-course-card sel-course" onclick="selCourse(this)">
+              <div class="c-course-hdr">
+                <div style="font-size:9px;background:#FCE8F3;color:#8B2D5C;padding:3px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:7px;letter-spacing:.05em;text-transform:uppercase">Self makeup</div>
+                <div style="font-size:16px;font-weight:500;font-family:'Cormorant Garamond',serif">Self Makeup Course</div>
+                <div style="font-size:11px;color:var(--mid);margin-top:2px">3–6 hours · 1-on-1 · AED 800</div>
+              </div>
+              <div class="c-course-body">
+                <div class="c-course-item">Foundation matching, contouring, eyebrows, day-to-evening</div>
+                <div class="c-course-item">Eyeliner techniques & perfect bold lip secrets</div>
+                <div class="c-course-item">Going through your personal makeup kit</div>
+              </div>
+            </div>
+
+            <div class="c-course-card" onclick="selCourse(this)">
+              <div class="c-course-hdr">
+                <div style="font-size:9px;background:var(--course-l);color:var(--course);padding:3px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:7px;letter-spacing:.05em;text-transform:uppercase">Beginner MUA</div>
+                <div style="font-size:16px;font-weight:500;font-family:'Cormorant Garamond',serif">Become a MUA — Beginner Course</div>
+                <div style="font-size:11px;color:var(--mid);margin-top:2px">14–20 hours · practice on model · AED 2,500</div>
+              </div>
+              <div class="c-course-body">
+                <div class="c-course-item">Full technique training from basics to smokey eyes</div>
+                <div class="c-course-item">Professional behaviour, hygiene & client psychology</div>
+                <div class="c-course-item">How and where to get your first real jobs</div>
+              </div>
+            </div>
+
+            <div class="c-course-card" onclick="selCourse(this)">
+              <div class="c-course-hdr">
+                <div style="font-size:9px;background:var(--pro-l);color:var(--pro);padding:3px 9px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:7px;letter-spacing:.05em;text-transform:uppercase">Skills upgrade</div>
+                <div style="font-size:16px;font-weight:500;font-family:'Cormorant Garamond',serif">Skills Upgrade — For Working MUAs</div>
+                <div style="font-size:11px;color:var(--mid);margin-top:2px">1–3 days · existing MUAs only · AED 1,800/day</div>
+              </div>
+              <div class="c-course-body">
+                <div class="c-course-item">3 advanced looks · portfolio advice · social media strategy</div>
+                <div class="c-course-item">Networking, collaborations & how to get into fashion shoots</div>
+                <div class="c-course-item">Long-lasting, flawless makeup secrets from Anna</div>
+              </div>
+            </div>
+
+            <div class="fg" style="margin-top:14px">
+              <div class="ff"><label>Preferred dates</label><input placeholder="Any week in April, specific dates..."></div>
+              <div class="ff"><label>Your experience level</label><select><option>Complete beginner</option><option>Some experience (1–2 years)</option><option>Working MUA wanting to level up</option></select></div>
+              <div class="ff"><label>Your goals</label><textarea placeholder="What do you want to achieve from this course?"></textarea></div>
+              <button class="btn btn-course btn-full" onclick="this.textContent='✓ Enrollment request sent!';this.disabled=true">Send enrollment request</button>
+            </div>
+          </div>
+
+          <!-- MOOD BOARD TAB -->
+          <div id="psec-moodboard" class="psec">
+            <div style="font-size:13px;font-weight:500;margin-bottom:4px">Your inspo & mood board</div>
+            <div style="font-size:12px;color:var(--mid);margin-bottom:14px;line-height:1.5">Upload reference photos — Anna sees these before your session so she arrives fully prepared with the right products and colours.</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px">
+              <div style="aspect-ratio:1;border-radius:8px;background:linear-gradient(135deg,#FBE8EF,#D4537E);border:1px solid var(--rose-m);display:flex;align-items:center;justify-content:center"><div style="font-size:9px;color:var(--rose-d);text-align:center;padding:6px">Soft glam inspo</div></div>
+              <div style="aspect-ratio:1;border-radius:8px;background:linear-gradient(135deg,#FFF3DC,#E8920F);border:1px solid var(--gold-m);display:flex;align-items:center;justify-content:center"><div style="font-size:9px;color:#7A4D09;text-align:center;padding:6px">Bronze eye look</div></div>
+              <div style="aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--mid);font-size:11px" onclick="this.style.borderColor='var(--rose)'"><div style="font-size:20px;color:var(--rose)">+</div>Add</div>
+              <div style="aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--mid);font-size:11px" onclick="this.style.borderColor='var(--rose)'"><div style="font-size:20px;color:var(--rose)">+</div>Add</div>
+              <div style="aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--mid);font-size:11px" onclick="this.style.borderColor='var(--rose)'"><div style="font-size:20px;color:var(--rose)">+</div>Add</div>
+              <div style="aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--mid);font-size:11px" onclick="this.style.borderColor='var(--rose)'"><div style="font-size:20px;color:var(--rose)">+</div>Add</div>
+            </div>
+            <div class="ff" style="margin-bottom:10px"><label>Describe your vision</label><textarea placeholder="e.g. Romantic but modern, glowy skin, defined brows, soft berry lip..."></textarea></div>
+            <button class="btn btn-pri btn-full">Save mood board</button>
+          </div>
+
+          <!-- MY BOOKINGS TAB -->
+          <div id="psec-mybookings" class="psec">
+            <div style="font-size:13px;font-weight:500;margin-bottom:12px">Your bookings & enrollments</div>
+            <div style="border:1px solid var(--border);border-radius:var(--rm);overflow:hidden;margin-bottom:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--soft)"><div><div style="font-size:13px;font-weight:500">Event / party glam</div><div style="font-size:11px;color:var(--mid);margin-top:2px">Sat Apr 5 · 3:00 PM · Palm</div></div><span class="badge b-gold">Awaiting confirmation</span></div>
+              <div style="padding:12px 14px"><div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)"><span style="color:var(--mid)">Payment</span><span style="color:var(--teal);font-weight:500">AED 450 paid</span></div><div class="msg msg-gold" style="margin-top:10px;margin-bottom:0">Anna is reviewing your address and date. WhatsApp confirmation coming shortly.</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setMode(m,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(m+'-view').classList.add('active');
+  if(btn)btn.classList.add('active');
+  else document.querySelectorAll('.mode-btn').forEach(b=>{if(b.onclick&&b.onclick.toString().includes(m))b.classList.add('active')});
+}
+
+const meta={
+  dashboard:{t:'Good morning, Anna',s:'Mar 21 · 3 personal requests · 2 pro briefs · 2 enrollment requests'},
+  notifications:{t:'Notifications',s:'5 unread'},
+  requests:{t:'Booking requests',s:'3 personal · confirm after checking date & location'},
+  calendar:{t:'Calendar',s:'Personal + pro bookings · tap days to block'},
+  clients:{t:'Personal clients',s:'Auto-added on sign-up · skin profiles & mood boards'},
+  reviews:{t:'Reviews',s:'Auto-collected 24h after every booking'},
+  rebook:{t:'Rebooking engine',s:'3 reminders due · runs silently in the background'},
+  waitlist:{t:'Waitlist',s:'5 clients waiting for blocked dates'},
+  pro:{t:'Pro & commercial bookings',s:'Productions, magazines, fashion shows, brand campaigns'},
+  'pro-clients':{t:'Productions & brands',s:'Commercial clients and their history'},
+  courses:{t:"Anna's courses",s:'3 courses · self makeup · beginner MUA · skills upgrade'},
+  students:{t:'Students',s:'4 enrolled · 2 awaiting approval'},
+  'course-requests':{t:'Enrollment requests',s:'2 awaiting your review'},
+  analytics:{t:'Analytics',s:'Revenue across all 3 streams'},
+  portfolio:{t:'Portfolio',s:'Red carpet · creative · fashion / magazine'}
+};
+
+function nav(id,el,type){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active','pro','course'));
+  document.getElementById('sec-'+id).classList.add('active');
+  el.classList.add('active');
+  if(type)el.classList.add(type);
+  const m=meta[id]||meta.dashboard;
+  document.getElementById('pt').textContent=m.t;
+  document.getElementById('ps').textContent=m.s;
+}
+
+function markOne(el){el.classList.remove('unread');const p=el.querySelector('.pip');if(p)p.remove();updNB();}
+function markAll(){document.querySelectorAll('.notif.unread').forEach(n=>{n.classList.remove('unread');const p=n.querySelector('.pip');if(p)p.remove()});updNB();}
+function updNB(){const c=document.querySelectorAll('.notif.unread').length;const b=document.getElementById('nb');b.textContent=c;b.style.display=c>0?'':'none';}
+
+function confirmR(id,btn,badgeId){
+  const c=document.getElementById('req-'+id)||document.getElementById('pro-'+id);
+  if(!c)return;c.classList.remove('pending');c.classList.add('confirmed');
+  const b=c.querySelector('.badge');if(b){b.className='badge b-green';b.textContent='✓ Confirmed';}
+  btn.closest('div').innerHTML='<span style="font-size:12px;color:var(--teal);font-weight:500">✓ Confirmed · WhatsApp sent</span>';
+  if(badgeId){const bd=document.getElementById(badgeId);if(bd){const v=parseInt(bd.textContent)-1;bd.textContent=v;bd.style.display=v>0?'':'none';}}
+}
+function declineR(id,btn,badgeId){
+  const c=document.getElementById('req-'+id)||document.getElementById('pro-'+id);
+  if(!c)return;c.classList.remove('pending');c.classList.add('declined');
+  const b=c.querySelector('.badge');if(b){b.className='badge b-rose';b.textContent='✕ Declined';}
+  btn.closest('div').innerHTML='<span style="font-size:12px;color:var(--rose-d);font-weight:500">✕ Declined · client notified</span>';
+  if(badgeId){const bd=document.getElementById(badgeId);if(bd){const v=parseInt(bd.textContent)-1;bd.textContent=v;bd.style.display=v>0?'':'none';}}
+}
+
+function ctb(d){if(d.classList.contains('booked')||d.classList.contains('pro-booked')||d.classList.contains('other'))return;d.classList.toggle('blocked');if(d.classList.contains('blocked'))d.querySelectorAll('.ev').forEach(e=>e.remove());}
+
+// CLIENT PORTAL
+function at(t,el){document.querySelectorAll('.auth-tab').forEach(a=>a.classList.remove('active'));el.classList.add('active');document.getElementById('a-in').style.display=t==='in'?'block':'none';document.getElementById('a-up').style.display=t==='up'?'block':'none';}
+function signIn(){document.getElementById('portal-auth').style.display='none';document.getElementById('portal-main').style.display='block';}
+function signOut(){document.getElementById('portal-auth').style.display='block';document.getElementById('portal-main').style.display='none';}
+function pt(id,el){document.querySelectorAll('.psec').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.p-tab').forEach(t=>t.classList.remove('active'));document.getElementById('psec-'+id).classList.add('active');el.classList.add('active');}
+
+let cp=2500,cd=1250;
+function ss(el,p,d){document.querySelectorAll('.svc').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');cp=parseInt(p);cd=parseInt(d);}
+function sp(t){document.getElementById('pf').classList.toggle('sel',t==='full');document.getElementById('pd').classList.toggle('sel',t==='dep');}
+function gs(n){
+  ['bs1','bs2','bs3','bsuc'].forEach(s=>document.getElementById(s).style.display='none');
+  if(n<=3)document.getElementById('bs'+n).style.display='block';
+  ['s1','s2','s3'].forEach((s,i)=>{const el=document.getElementById(s);el.className='step'+(i+1<n?' done':i+1===n?' active':'');});
+  document.getElementById('fa').textContent='AED '+Math.round(cp*.95).toLocaleString();
+  document.getElementById('da').textContent='AED '+cd.toLocaleString();
+}
+function submitB(){['bs1','bs2','bs3'].forEach(s=>document.getElementById(s).style.display='none');document.getElementById('bsuc').style.display='block';}
+function selCourse(el){document.querySelectorAll('.c-course-card').forEach(c=>c.classList.remove('sel-course'));el.classList.add('sel-course');}
+</script>
+</body>
+</html>
